@@ -1,0 +1,82 @@
+package manage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class HRManagementSystem {
+    private static List<Employee> employees = new ArrayList<>();
+
+    public static void addEmployee(String name, int age, double salary) {
+        int id = employees.size() + 1; 
+        Employee employee = new Employee(id, name, age, salary);
+        employees.add(employee);
+        System.out.println("Employee '" + name + "' added successfully.");
+    }
+
+    public static void removeEmployee(int employeeId) {
+        for (Employee employee : employees) {
+            if (employee.getId() == employeeId) {
+                employees.remove(employee);
+                System.out.println("Employee with ID '" + employeeId + "' removed successfully.");
+                return;
+            }
+        }
+        System.out.println("Employee with ID '" + employeeId + "' not found.");
+    }
+
+    public static void listEmployees() {
+        System.out.println("Employee List:");
+        for (Employee employee : employees) {
+            System.out.println("ID: " + employee.getId() + ", Name: " + employee.getName() + ", Age: " + employee.getAge());
+        }
+    }
+
+    public static void calculateSalary() {
+        System.out.println("Salary List:");
+        for (Employee employee : employees) {
+            System.out.println("ID: " + employee.getId() + ", Name: " + employee.getName() + ", Salary: " + employee.getSalary());
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nHR Management System");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Remove Employee");
+            System.out.println("3. List Employees");
+            System.out.println("4. Calculate Salary");
+            System.out.println("0. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            if (choice == 1) {
+                System.out.print("Enter employee name: ");
+                String name = scanner.nextLine();
+                System.out.print("Enter employee age: ");
+                int age = scanner.nextInt();
+                System.out.print("Enter employee salary: ");
+                double salary = scanner.nextDouble();
+                addEmployee(name, age, salary);
+            } else if (choice == 2) {
+                System.out.print("Enter employee ID to remove: ");
+                int employeeId = scanner.nextInt();
+                removeEmployee(employeeId);
+            } else if (choice == 3) {
+                listEmployees();
+            } else if (choice == 4) {
+                calculateSalary();
+            } else if (choice == 0) {
+                break;
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        scanner.close();
+    }
+}
