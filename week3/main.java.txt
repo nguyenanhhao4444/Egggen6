@@ -1,0 +1,13 @@
+package week3egg;
+
+public class main {
+	public static void main(String[] args) {
+		Triangle tamgiac1 = new Triangle(5, 6 ,9);
+		double area = tamgiac1.area();
+		double perimeter = tamgiac1.perimeter();
+		
+		System.out.println("Area: " + area);
+	    System.out.println("Perimeter: " + perimeter);
+	}
+
+}
