@@ -1,0 +1,144 @@
+package ex2_week2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class BookManager {
+    private List<Book> books;
+
+    public BookManager() {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void displayBooks() {
+        for (Book book : books) {
+            System.out.println(book.toString());
+        }
+    }
+
+    public double calculateTotalPriceByType(String type) {
+        double totalPrice = 0.0;
+        for (Book book : books) {
+            if (book.getClass().getSimpleName().equalsIgnoreCase(type)) {
+                totalPrice += book.calculateTotalPrice();
+            }
+        }
+        return totalPrice;
+    }
+
+    public List<Book> getBooksByPublisher(String publisher) {
+        List<Book> booksByPublisher = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getPublisher().equalsIgnoreCase(publisher)) {
+                booksByPublisher.add(book);
+            }
+        }
+        return booksByPublisher;
+    }
+
+    public List<Textbook> getTextbooksByPublisher(String publisher) {
+        List<Textbook> textbooksByPublisher = new ArrayList<>();
+        for (Book book : books) {
+            if (book instanceof Textbook && book.getPublisher().equalsIgnoreCase(publisher)) {
+                textbooksByPublisher.add((Textbook) book);
+            }
+        }
+        return textbooksByPublisher;
+    }
+
+    public static void main(String[] args) {
+        BookManager bookManager = new BookManager();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add a book");
+            System.out.println("2. Display all books");
+            System.out.println("3. Calculate total price by type");
+            System.out.println("4. Display books by publisher");
+            System.out.println("5. Display textbooks by publisher");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter book type (Textbook, ReferenceBook, ForeignLanguageBook): ");
+                    String bookType = scanner.nextLine();
+                    System.out.print("Enter code: ");
+                    String code = scanner.nextLine();
+                    System.out.print("Enter title: ");
+                    String title = scanner.nextLine();
+                    System.out.print("Enter price: ");
+                    double price = scanner.nextDouble();
+                    System.out.print("Enter quantity: ");
+                    int quantity = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter publisher: ");
+                    String publisher = scanner.nextLine();
+                    
+                    if (bookType.equalsIgnoreCase("Textbook")) {
+                        System.out.print("Enter condition (new/old): ");
+                        String condition = scanner.nextLine();
+                        Textbook textbook = new Textbook(code, title, price, quantity, publisher, condition);
+                        bookManager.addBook(textbook);
+                    } else if (bookType.equalsIgnoreCase("ReferenceBook")) {
+                        System.out.print("Enter field: ");
+                        String field = scanner.nextLine();
+                        System.out.print("Enter tax: ");
+                        double tax = scanner.nextDouble();
+                        ReferenceBook referenceBook = new ReferenceBook(code, title, price, quantity, publisher, field, tax);
+                        bookManager.addBook(referenceBook);
+                    } else if (bookType.equalsIgnoreCase("ForeignLanguageBook")) {
+                        System.out.print("Enter language: ");
+                        String language = scanner.nextLine();
+                        ForeignLanguageBook foreignLanguageBook = new ForeignLanguageBook(code, title, price, quantity, publisher, language);
+                        bookManager.addBook(foreignLanguageBook);
+                    } else {
+                        System.out.println("Invalid book type.");
+                    }
+                    break;
+                case 2:
+                    System.out.println("All Books:");
+                    bookManager.displayBooks();
+                    break;
+                case 3:
+                    System.out.print("Enter book type (Textbook, ReferenceBook, ForeignLanguageBook): ");
+                    String type = scanner.nextLine();
+                    double totalPrice = bookManager.calculateTotalPriceByType(type);
+                    System.out.println("Total Price of " + type + "s: " + totalPrice);
+                    break;
+                case 4:
+                    System.out.print("Enter publisher: ");
+                    String publisherToSearch = scanner.nextLine();
+                    List<Book> booksByPublisher = bookManager.getBooksByPublisher(publisherToSearch);
+                    System.out.println("\nBooks published by " + publisherToSearch + ":");
+                    for (Book book : booksByPublisher) {
+                        System.out.println(book.toString());
+                    }
+                    break;
+                case 5:
+                    System.out.print("Enter publisher: ");
+                    String textbookPublisherToSearch = scanner.nextLine();
+                    List<Textbook> textbooksByPublisher = bookManager.getTextbooksByPublisher(textbookPublisherToSearch);
+                    System.out.println("\nTextbooks published by " + textbookPublisherToSearch + ":");
+                    for (Textbook textbook : textbooksByPublisher) {
+                        System.out.println(textbook.toString());
+                    }
+                    break;
+                case 6:
+                    System.out.println("Exiting the program.");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}

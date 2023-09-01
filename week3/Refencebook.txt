@@ -1,0 +1,23 @@
+package ex2_week2;
+
+public class ReferenceBook extends Book {
+    private String field;
+    private double tax;
+
+    public ReferenceBook(String code, String title, double price, int quantity, String publisher, String field, double tax) {
+        super(code, title, price, quantity, publisher);
+        this.field = field;
+        this.tax = tax;
+    }
+
+    @Override
+    public double calculateTotalPrice() {
+        return super.calculateTotalPrice() + (price * quantity * tax);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Field: " + field + "\n" +
+               "Tax: " + tax + "\n";
+    }
+}

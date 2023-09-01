@@ -1,0 +1,26 @@
+package ex2_week2;
+
+public class Textbook extends Book {
+    private String condition;
+
+    public Textbook(String code, String title, double price, int quantity, String publisher, String condition) {
+        super(code, title, price, quantity, publisher);
+        this.condition = condition;
+    }
+
+    @Override
+    public double calculateTotalPrice() {
+        if (condition.equalsIgnoreCase("new")) {
+            return super.calculateTotalPrice();
+        } else if (condition.equalsIgnoreCase("old")) {
+            return super.calculateTotalPrice() * 0.5;
+        } else {
+            return 0.0; // Xử lý tình trạng không hợp lệ
+        }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Condition: " + condition + "\n";
+    }
+}
